@@ -1,0 +1,248 @@
+
+\documentclass{article}
+
+\setlength{\oddsidemargin}{0.05 in}
+\setlength{\evensidemargin}{-0.05 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{9.5 in}
+\setlength{\headsep}{0.25 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+\usepackage [usenames] {color}
+\definecolor {infocolor} {rgb} {0.6,0.6,0.6}
+\definecolor {sepia} {rgb} {0.75,0.30,0.15}
+\everymath{\color{sepia}}
+\everydisplay{\color{sepia}}
+%
+
+\usepackage{amsmath,amsfonts,amssymb,enumerate,graphicx}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+\newcommand{\tran}{^{\mbox{\tiny $\top$}}}
+\newcommand{\tleq}{^{\mbox{\tiny $\leqslant$}}}
+\newcommand{\teq}{^{\mbox{\tiny $=$}}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[2]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+       \vbox{\vspace{2mm}
+         \hbox {\leftline{\Large LECTURE #1: \hfill}}
+         \vspace{3mm}
+         \hbox {\leftline{\Large #2 \hfill}}
+         \vspace{4mm}
+         \hrule
+         \vspace{3mm}
+         \hbox to 6.5in { {{\large Theory of linear and integer programming}  \hfill Mar. 2013} }
+         \vspace{3mm}
+        }
+   \end{center}
+   \markboth{LECTURE #1: #2}{LECTURE #1: #2}
+   \pagenumbering{arabic}
+   \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\it Proof.}}{ \hfill $\square$}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\def\R{{\mathbb R}}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{11}{On average running time of the simplex method}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+% **** YOUR NOTES GO HERE:
+
+% Some general latex examples and examples making use of the
+% macros follow.
+%**** IN GENERAL, BE BRIEF. LONG SCRIBE NOTES, NO MATTER HOW WELL WRITTEN,
+%**** ARE NEVER READ BY ANYBODY.
+
+\textbf{Crossreference }
+
+Simplex method
+
+Polyhedral theory
+
+\section{Fast recap: the simplex method}
+What is simplex method? 
+
+phase I : Find a bfs.
+
+phase II : Start with a bfs and work towards a optimal solution.
+
+Geometrical interpretation of phase II: Start with a initial vertex of the polyhedron and move in each iteration to a adjacent vertex until eventually either an optimal vertex is reached or the algorithm recognizes at some vertex that the problem is unbounded.
+
+Since Phase I works in a similar manner to Phase II, and Phase II admits a better geometrical explanation, we concentrate on Phase II.
+\section{Shadow-vertex pivot rule}
+The simplex method relies heavily on the pivot rule. A different pivot rule leads to a 'variant' of the simplex method. There are many different rules such as...  In particular, the shadow-vertex pivot rule introduced by Gass and Satty works extremely well in probabilistic analysis and allows an intuitive geometric description. We not explain it in detail.
+
+Let $x_0$ denote the given initial vertex of polyhedron $P$. Since $x_0$ is a vertex of the polyhedron, there exists an objective function $\bar{c}^\top x$ which is maximized by $x_0$ subject to the constraint $x\in P$. If $x_0$ is not the optimal solution of the linear program, then vetoes $c$ and $\bar{c}$ are linearly independent(note that the converse this statement is not true) and thus span a plane. Project the polyhedron $P$ onto this plane span$(c,\bar{c})$. 
+
+The Shadow, that is the projection of $P$ on to his plane has a few useful properties:
+\begin{enumerate}
+    \item The vertex $x_0$ is projected onto a vertex of the projection.
+    \item The optimal solution $x^*$ is projected onto a vertex of the projection.
+    \item Each vertex of the projection is the image of the a vertex of the polyhedron.
+    \item Each edge of the projection is the image of an edge between two adjacent vertices of the polyhedron.
+\end{enumerate}
+
+Observe that the simplex algorithm in dimension two is very easy: it just follows the edges of the polyhedron. Apply the simplex method to the projection and the walk along the edges of the projection corresponds to a walk along the edges of the original polyhedron. Furthermore, once the optimal solution on the polyhedron is found, we can compute the pre-image on the polyhedron, which is an optimal solution of the linear program.
+
+(The number of steps performed by the simplex algorithm with shadow vertex pivot rule is upper bounded by the number of vertices of the two-dimensional projection of the polyhedron. Hence, bounding the expected number of vertices on the polygon is the crucial step for
+bounding the expected running time of the simplex algorithm with shadow vertex pivot rule. Spielman and Teng consider first the case that the polyhedron $P$ is projected onto a fixed plane specified by two fixed vectors $c$ and $\bar{c}$. They show the following result on the expected
+shadow size, that is, the number of vertices of the projection.)
+
+Shadow-vertex pivot rule mathematical description(cf. Theory of linear and integer programming): Given a vertex $x_k$ of the polyhedron $P$ maximizing $(\lambda c+\bar{c})x$ over $P$ for some $\lambda$
+
+Geometrically, shadow-vertex pivot rule means the following: Project $P$ on to the plane spanned by $c$ and $\bar{c}$. We obtain a polyhedron $Q$ in two dimensions. The vertices of $Q$ are exactly the projection of those vertices $x$ of $P$ wich maximize $(\lambda c+\mu \bar{c}x)$ for some $\lambda$ and $\mu$. The step from $x_k$ to $x_{k+1}$ in the step (48) means in $Q$ that we go form the projection of $x_k$ to the adjacent vertex in the direction of $c$. This explains the name 'shadow vertex pivot rule'.
+
+graphs explanation.
+
+
+
+\section{Efficiency of algorithms: Gaps between theory and practice}
+
+In theoretical computer science, an algorithm is typically judged by its worst-case performance. An algorithm with good worst-case performance is very desirable because it performs
+well on all possible inputs. On the other hand, a bad worst-case performance does not necessarily imply that the algorithm performs also badly in practice. The most prominent example
+is probably the simplex algorithm for solving linear programs. For most deterministic pivot
+rules that have been suggested, examples are known showing that in the worst case the
+simplex algorithm can take an exponential number of steps, but the simplex algorithm is
+still one of the most competitive algorithms for solving linear programs in practice. It is
+fast and reliable even for large-scale instances and for the pivot rules that have been shown
+to require an exponential number of iterations in the worst case. Examples on which the
+simplex algorithm needs many iterations are quite artificial and occur only very rarely in
+practice. This behavior is by no means an exceptional property of the simplex algorithm.
+
+
+This might motivate to study the average-case performance rather than the worst case performance. But average-case analyses are often problematic because it is not clear how to
+choose a “reasonable” probability distribution on the set of inputs. Many average-case analyses assume a uniform distribution. However, for most problems, instances chosen uniformly
+at random do not reflect typical instances. For example, linear programs that are obtained
+by choosing each coefficient in the constraint matrix uniformly at random have very special
+properties with high probability and are very different from linear programs that occur in
+practical applications. 
+
+Engineers:
+
+Theorists:
+
+Reason for discrepancy:
+
+How to make theory more consistent with practice? More compatible with practice? Find a more realistic performance measure.
+
+How to explain the hug gap between the provably bad wost case bounds and the efficiency of the natural in practice? A natural approach is to apply probabilistic analysis: assume that the input data are distributed according to some prespecifed distribution(a realistic distribution will be the best, however we don't know what the distribution of real world looks like.) and show on the average the number of pivots is small.
+
+
+\section{A probabilistic model}
+
+Sign-invariant model(SIM) 
+
+It's extremely simple and only relies on a finite number of reflections and symmetries. In analysis it's more sufficient to consider a somehow relaxed version of sign-in-variance, the so-called flipping model.
+$\max\{\pm c^T x|a_1^T\leqslant \geqslant \beta_1; \dots ; a_m^T\leqslant \geqslant \beta_m\}$. Here $\leqslant\geqslant$ indicates that one of the relations $\leqslant$ or $\geqslant$ is valid in the formulation of the instance. And we independently determine the m directions of the relations, each one with probability 1/2 for $\geqslant$ and with probability 1/2 for $\leqslant$. The we generate exactly $2^{m+1}$ problem instance out of the data set $A, b, c, \bar{c}$.  The idea of averaging is to solve all $2^{m+1}$ instances, to sum up the required pivot steps and to divide by the number of instances.
+
+Here we consider/ we restrict ourselves to a simplified model which captures all the difficulty /complexity in polyhedral aspects. provides insight into the average running stuty.
+
+\section{average running time}
+\begin{theorem}
+The class of LP-program given as $\max\{c^\top x|Ax\leqslant b\}$, can be solved with the simplex method, using the shadow vertex pivot rule, in at most $\frac{1}{2}n$ pivot iterations on the average, under any probability measure satisfying(47).
+\end{theorem}
+\begin{proof}
+Let the LP-program $\max\{c^\top x| Ax\leqslant b\}$ be given, together with a vertex (extreme point/basic feasible solution) $x_0$ of $\{x| Ax\leqslant b\}$ and a vector $\bar{c}$ such that $x_0$ maximizes $\bar{c}^\top x$ over $Ax\leqslant b$. Let $m$ and $n$ be the numbers of rows and columns of $A$.  
+
+The idea of the proof is to calculate the average pivot steps over some collections of LP.
+
+Let $z_1,\dots,z_t$ be those vectors in $\R^n$ which can be determined by some choice of $n$ linearly independent equations from $Ax=b$. So $t=\binom{m}{n}$ with probability 1. Consider the class $\mathcal{L}$ of LP-problems $\max\{\hat{c}^\top x|\hat{A}x\leqslant \hat{b}\}$ which arise from $\max\{c^\top x|Ax\leqslant b\}$ by reversing some (or none) of the inequality signs and/or replacing $c$ by $-c$, and for which
+\begin{equation}
+\max\{\bar{c}^\top x|\hat{A}x\leqslant \hat{b}\}
+\end{equation}
+is finite. We claim $\lvert \mathcal{L} \rvert=2\binom{m}{n}$. Indeed, by (47) (the probabilistic measure condition), with probability 1, each $\max\{\bar{c}^\top x|\hat{A}x\leqslant\hat{b}\}$ is uniquely\footnote{By distribution assumption, any $n$ or less vertors of $c$ and row vectors in $A$ are linearly independent. Even the optimal is attained in a line, it will lead to dependence in these vectors. Not to mention a face.} attained\footnote{Finiteness assumption in (11.1)} by a vertex of $\hat{A}x\leqslant \hat{b}$\footnote{This observation comes from the definition of class $\mathcal{L}$, which requires that for all instances in $\mathcal{L}$, $\max\{\bar{c}^\top x|\hat{A}x\leqslant \hat{b}\}$ is finite.}, and hence by one of the vectors $z_i$. Moreover, for each $z_i$ there is exactly \emph{one} choice of $\hat{A}x\leqslant \hat{b}$ for which $\max\{\bar{c}^\top x|\hat{A}x\leqslant \hat{b}\}$ is attained by $z_i$. [Since, with probability 1, there are exactly $n$ inequalities in $\hat{A}x\leqslant \hat{b}$, say $\hat{A}^\prime x\leqslant \hat{b}^\prime$, which are satisfied by $z_i$ with equality. Hence the inequality sign is strict in the other $m-n$ inequalities, and therefore we can not reverse the sign. Moreover, $\bar{c}$ must be in the cone generated by the rows of $\hat{A}^\prime$\footnote{By complementary slackness in $\max\{c^\top x|Ax\leqslant b\}=\min\{b^\top y| y^\top A=c, y\geqslant 0\}$, $\bar{c}$ is the non-negative combination of all tight(active) constraints). }, and hence also here the signs\footnote{Since $\bar{c}$ is fixed, and is a non-negative combination of all directions of tight constraints, so all this tight constraints can not be flipped (reversed) otherwise $\bar{c}$ will no longer be in the cones generated by all the directions of these constraints} are uniquely determined.] So to $z_i$ there correspond the programs $\max\{cx|\hat{A}x\leqslant\hat{b}\}$ and $\max\{-cx|\hat{A}x\leqslant \hat{b}\}$\footnote{The only 2 relations that are revertible/flip-able in $\mathcal{L}$ }. Therefore, $\lvert \mathcal{L}\rvert=2\binom{m}{n}$.
+
+Next consider the class of edges and rays formed by the systems $\hat{A}x\leq\hat{b}$. Each set of $n-1$ equations from $Ax=b$ gives a line(1-dimensional affine subspace) in $\R^n$, containing $m-n+1$ of $z_i$. The $z_i$ subdivide this line into $m-n$ edges and two rays.
+
+Let $l$ be such a line, and let $z_i$ and $z_j$ be two neighboring points on $l$(i.e. the line segment $\overline{z_i z_j}$ contains no other points from $z_1,\dots,z_t$). Then the edge $\overline{z_i z_j}$ is traversed in at most (in fact, exactly) one of the programs in $\mathcal{L}$. For suppose $\overline{z_i z_j}$ is traversed in more than one of these programs $\max\{\hat{c}^\top x|\hat{A}x\leqslant \hat{b}\}$. Then starting with an arbitrary feasible program in $\mathcal{L}$, we can always obtain a new feasible program in $\mathcal{L}$ by reverting or flipping operation. However, it turns out that for any feasible program from $\mathcal{L}$, neither the constrains nor the objective function is revertible.
+
+By(48), there is a $\lambda$ such that
+\begin{equation}
+\overline{z_i z_j}=\{x|\hat{A}x\leqslant \hat{b}\}\cap\{x|(\bar{c}+\lambda\hat{c})x=(\bar{c}+\lambda\hat{c})z_i\}
+\end{equation}
+and such that $(\bar{c}+\lambda\hat{c})x\leqslant(\bar{c}+\lambda\hat{c})z_i$ is valid for $\{x|\hat{A}x\leqslant\hat{b}\}$. By (47) we know that with probability 1 there are exactly $n-1$ of the inequalities $\hat{A}x\leqslant\hat{b}$, which are tight on $\overline{z_i z_j}$, say $\hat{A}^\prime x\leqslant\hat{b}^\prime$. Hence the inequality signs in the other inequalities cannot be reversed. Moreover, there is only one vector $u$ and only one scalar $\lambda$ with $u^\top\hat{A}^\prime=\bar{c}+\lambda\hat{c}$(with probability 1). (This result is based on 2 assumption of the model in (47). First, with probability 0, $n$ or less vectors from $c$, $\bar{c}$ and rows vectors in $A$ are linearly dependent. Second, note that $A$ is a $m$ by $n$ matrix, implying that $x\in \R^n$. So there are at most $n$ linearly independent vectors. Since $n-1$ vectors in $\hat{A}^\prime$ and together with $c$ and $\bar{c}$ we have $n+1$ vectors in all, they must be linearly dependent with probability 1.)
+Since $(\bar{c}+\lambda\hat{c})x=(\bar{c}+\lambda\hat{c})z_i$ is a supporting half-space, we know that $u>0$.(First of all, it's easy to get that no element in $u$ is zero, otherwise remaining vectors are linearly dependent contradicting with the assumption (47). Second, $\bar{c}+\lambda\hat{c}$ must be in the cone generated by the rows of $\hat{A}^\prime$, otherwise, $(\bar{c}+\lambda\hat{c})x=(\bar{c}+\lambda\hat{c})z_i$ cannot be a supporting half space.) The uniqueness of $u$ implies the uniqueness of the inequality signs in $\hat{A}^\prime\leqslant\hat{b}^\prime$.(Since fixed $\bar{c}+\lambda\hat{c}$ is a positive linear combination of rows in $\hat{A}^\prime$, if some inequality in $\hat{A}^\prime\leqslant\hat{b}^\prime$ is revert-able, we will get another $u$ and $\lambda$ satisfying equality $u^\top\hat{A}^\prime=\bar{c}+\lambda\hat{c}$, finally yielding that some $n$ vertors are linearly dependent.) Finally, let without loss of generality $\bar{c}z_i<\bar{c}z_j$. If $cz_i>cz_j$, then (49) implies $\hat{c}=c$. If $cz_i<cz_j$, (49) implies $\hat{c}=-c$. So there is also only one choice for $\hat{c}$. Concluding, the edge $\overline{z_i z_j}$ is traversed in only one LP in $\mathcal{L}$.
+
+Similarly, each ray $z_i+y\R^+$ is traversed only if $\bar{c}y>0$ (by (51)), and then in only one LP in $\mathcal{L}$.
+
+Now on each line determined by $n-1$ equations from $Ax=b$ there are $m-n$ edges and one ray $z_i+y\R^+$ with $\bar{c}y>0$. So the total number of such edges and such rays is $(m-n+1)\binom{m}{n-1}=\binom{m}{n} n$. Therefore, the average number of pivot steps is at most:
+\begin{equation}
+\frac{\binom{m}{n}n}{\lvert \mathcal{L} \rvert}=\frac{1}{2}n.
+\end{equation}
+\end{proof}
+
+\section*{References}
+\beginrefs
+\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd},
+``Matrix multiplication via arithmetic progressions,''
+{\it Proceedings of the 19th ACM Symposium on Theory of Computing},
+1987, pp.~1--6.
+\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+
+
+
+
